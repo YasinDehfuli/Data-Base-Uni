@@ -1,8 +1,14 @@
 <?php
 require 'inc/dbh.php';
+if (isset($_GET['id'])){
+    $sql = "DELETE FROM students WHERE id = :id";
+    $stm = $dbh->prepare($sql) or die('SQL err');
+    $stm->execute($_GET);
+}
 $stm = $dbh->prepare('SELECT * FROM students;') or die('SQL err');
 $stm->execute();
 $students = $stm->fetchAll();
+
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -49,10 +55,10 @@ $students = $stm->fetchAll();
                     <?php echo $student['tel']; ?>
                 </td>
                 <th>
-                    <a href="#" class="btn btn-danger">
+                    <a href="?id=<?php echo $student['id']; ?>" class="btn btn-danger">
                         &times;
                     </a>
-                    <a href="#" class="btn btn-primary">
+                    <a href="studentEdit.php?id=<?php echo $student['id']; ?>" class="btn btn-primary">
                         Edit
                     </a>
                 </th>
@@ -74,7 +80,7 @@ $students = $stm->fetchAll();
                     <label for="username">
                         Username
                     </label>
-                    <input type="text" id="username" name="username" value="" placeholder="Username" class="form-control">
+                    <input type="text" id="username" name="usernamex" value="" placeholder="Username" class="form-control">
                 </div>
             </div>
         </div>
